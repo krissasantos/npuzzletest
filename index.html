@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15 Puzzle</title>
+    <link href="css/styles.css" rel="stylesheet" media="screen" type="text/css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+$(function() {
+    // $(".cell").draggable({ axis: "y" ,containment: "#containment", scroll: false }) -- this works
+    var numberOfPieces = 16,
+        aspect = "4:4",
+        aspectW = parseInt(aspect.split(":")[0]),
+        aspectH = parseInt(aspect.split(":")[1]),
+        container = $("#containment"),
+        piece = $("<div/>"),
+        pieceW = Math.floor(300 / aspectW), //get the width of each piece
+        pieceH = Math.floor(300 / aspectH), //get the height of each piece, to be multiplied later with CSS 
+        idCounter = 0,
+        positions = [],
+        empty = {
+            top: 0,
+            left: 0,
+            bottom: pieceH,
+            right: pieceW
+        },
+
+        previous = {}
+
+  $(".cell").draggable({ 
+    containment: "#containment", 
+    grid: [pieceW, pieceH],
+    // scroll: false, 
+    start: function (e, ui) {
+
+                var current = getPosition(ui.helper);
+                //set axis depending on location relative to empty space
+                if (current.left === empty.left) {
+                    ui.helper.draggable("option", "axis", "y");
+                } else if (current.top === empty.top) {
+                    ui.helper.draggable("option", "axis", "x");
+                } else {
+                    ui.helper.trigger("mouseup");
+                    return false;
+                }
+
+                //prevent drag if not adjacent to empty space
+                if (current.bottom < empty.top || current.top > empty.bottom || current.left > empty.right || current.right < empty.left) {
+                    ui.helper.trigger("mouseup");
+                    return false;
+                }
+
+                //remember current location
+                previous.top = current.top;
+                previous.left = current.left;
+
+            }
+
+      // drag: function (e,ui){
+        // var current = getPosition(ui.helper);
+
+        // ui.helper.draggable("option", "revert", false);
+
+        // if (current.top === empty.top && current.left === empty.left) {
+        //     ui.helper.trigger("mouseup");
+        //     return false;
+        // }
+
+        // if (current.top > empty.bottom ||
+        //     current.bottom < empty.top || 
+        //     current.left > empty.right || 
+        //     current.right < empty.left) {
+        //         ui.helper.trigger("mouseup")
+        //                  .css({ 
+        //                      top: previous.top, 
+        //                      left: previous.left 
+        //                  });
+        // return false;
+        // }
+
+      // },
+
+      // stop: function (e, ui){
+      //   var current = getPosition(ui.helper);
+
+      // if (current.top === empty.top && current.left === empty.left) {
+
+      //     empty.top = previous.top;
+      //     empty.left = previous.left;
+      //     empty.bottom = previous.top + pieceH;
+      //     empty.right = previous.left + pieceW;
+      // }
+
+      // }
+      })
+
+
+
+
+});
+</script>
+
+</head>
+<body>
+ 
+
+
+
+<div class="board-container">
+    
+    <div class="grid-container"> 
+    <h2>N-Puzzle</h2>
+      <div class="grid start" id="containment">
+        <div class="board-row">
+           <div class="cell" id="empty" data-location="0,0"><span></span></div>
+           <div class="cell" id="0-1" data-location="0,1"><span>15</span></div>
+           <div class="cell" id="0-2" data-location="0,2"><span>14</span></div>
+           <div class="cell" id="0-3" data-location="0,3"><span>13</span></div>
+          
+        </div>
+
+         <div class="board-row">
+         
+           <div class="cell" id="1-0" data-location="1,0"><span>12</span></div>
+           <div class="cell" id="1-1" data-location="1,1"><span>11</span></div>
+           <div class="cell" id="1-2" data-location="1,2"><span>10</span></div> 
+           <div class="cell" id="1-3" data-location="1,3"><span>9</span></div>   
+        </div>
+
+         <div class="board-row">
+           <div class="cell" id="2-0" data-location="2,0"><span>8</span></div>
+           <div class="cell" id="2-1" data-location="2,1"><span>7</span></div>
+           <div class="cell" id="2-2" data-location="2,2"><span>6</span></div>
+           <div class="cell" id="2-3" data-location="2,3"><span>5</span></div>   
+        </div>
+
+         <div class="board-row">
+           <div class="cell" id="3-0" data-location="3,0"><span>4</span></div>
+           <div class="cell" id="3-1" data-location="3,1"><span>3</span></div>
+           <div class="cell" id="3-2" data-location="3,2"><span>2</span></div>
+           <div class="cell" id="3-3" data-location="3,3"><span>1</span></div>   
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+ 
+</body>
+</html>
+
+
+
+
+
+
