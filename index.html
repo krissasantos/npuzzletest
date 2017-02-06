@@ -99,7 +99,15 @@ $(function() {
 
       // }
       })
-
+  //get tile's location
+        function getPosition(el) {
+            return {
+                top: parseInt(el.css("top")),
+                bottom: parseInt(el.css("top")) + pieceH,
+                left: parseInt(el.css("left")),
+                right: parseInt(el.css("left")) + pieceW
+            }
+        }
 
 
 
